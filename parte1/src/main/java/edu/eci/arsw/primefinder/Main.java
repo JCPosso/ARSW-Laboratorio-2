@@ -1,31 +1,38 @@
 package edu.eci.arsw.primefinder;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.*;
 
 public class Main {
 
-	public static void main(String[] args) throws InterruptedException, IOException {
-		Integer p = 30000000/3;
-		ArrayList<PrimeFinderThread> threads = new ArrayList<>();
-		Thread t = new Thread();
-		for (int i=1;i<=4;i++){
-			threads.add (new PrimeFinderThread(p*(i), p*(i+1)));
-		};
-		long start = System.currentTimeMillis();
+	public static void main(String[] args) throws InterruptedException {
+
+		PrimeFinderThread pft1 = new PrimeFinderThread(0, 10000000);
+		PrimeFinderThread pft2 = new PrimeFinderThread(10000001, 20000000);
+		PrimeFinderThread pft3 = new PrimeFinderThread(20000001, 30000000);
+
+		pft1.start();
+		pft2.start();
+		pft3.start();
+
+		Thread.sleep(5000);
+
+		pft1.pausa();
+		pft2.pausa();
+		pft3.pausa();
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		while (System.currentTimeMillis() - start > 5000) {
-			System.out.println(br.read());
-			System.out.println("hhhhhhhhhhhh"+(System.currentTimeMillis() - start));
-			if (br.read()=='\n'){
-				System.out.println("here");
-				System.out.println("continue");
-			}
+		try {
+			String entrada = br.readLine();
+		} catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
+
 		}
+
+		pft1.reanudar();
+		pft2.reanudar();
+		pft3.reanudar();
+
 	}
-	
+
 }
