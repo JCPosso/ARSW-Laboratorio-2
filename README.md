@@ -13,12 +13,23 @@ Antes de terminar la clase.
 Creación, puesta en marcha y coordinación de hilos.
 
 1. Revise el programa “primos concurrentes” (en la carpeta parte1), dispuesto en el paquete edu.eci.arsw.primefinder. Este es un programa que calcula los números primos entre dos intervalos, distribuyendo la búsqueda de los mismos entre hilos independientes. Por ahora, tiene un único hilo de ejecución que busca los primos entre 0 y 30.000.000. Ejecútelo, abra el administrador de procesos del sistema operativo, y verifique cuantos núcleos son usados por el mismo.
-
-2. Modifique el programa para que, en lugar de resolver el problema con un solo hilo, lo haga con tres, donde cada uno de éstos hará la tarcera parte del problema original. Verifique nuevamente el funcionamiento, y nuevamente revise el uso de los núcleos del equipo.
-
+    
+    ***Después de ejecutar el Main principal de la parte uno en el administrador de tareas (como se muestra a continuación en el PID:1868) el Uso de CPU crece a medida que se ejecuta tomando cerca de la mitad de la CPU del computador.***
+   
+    ![](./img/media/p1-1.png)
+    ![](./img/media/p1-2.png)
+   
+2. Modifique el programa para que en lugar de resolver el problema con un solo hilo, lo haga con tres, donde cada uno de éstos hará la tarcera parte del problema original. Verifique nuevamente el funcionamiento, y nuevamente revise el uso de los núcleos del equipo.
+   
+    ***Al Realizar los cambios, verificamos que con respecto al punto anterior el consumo de CPU creció aún más  debido a que usó mas recursos del computador al tiempo para poder completar todas las tareas***
+   
+    ![](./img/media/p2-1.png)
+    ![](./img/media/p2-2.png)
+   
 3. Lo que se le ha pedido es: debe modificar la aplicación de manera que cuando hayan transcurrido 5 segundos desde que se inició la ejecución, se detengan todos los hilos y se muestre el número de primos encontrados hasta el momento. Luego, se debe esperar a que el usuario presione ENTER para reanudar la ejecución de los mismo.
-
-
+    ```java
+    
+    ```
 
 ### Parte II 
 

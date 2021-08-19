@@ -23,8 +23,6 @@ public class PrimeFinderThread extends Thread{
 				System.out.println(i);
 			}
 		}
-		
-		
 	}
 	
 	boolean isPrime(int n) {
