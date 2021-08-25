@@ -21,6 +21,12 @@ public class RegistroLlegada {
 	public void setUltimaPosicionAlcanzada(int ultimaPosicionAlcanzada) {
 		this.ultimaPosicionAlcanzada = ultimaPosicionAlcanzada;
 	}
+        public synchronized int getAndPlus(int valor){
+            ultimaPosicionAlcanzada+=valor;
+                
+            return ultimaPosicionAlcanzada-valor;
+            
+        }
 
 	
 	
