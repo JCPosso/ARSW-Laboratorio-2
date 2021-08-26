@@ -28,7 +28,73 @@ Creación, puesta en marcha y coordinación de hilos.
    
 3. Lo que se le ha pedido es: debe modificar la aplicación de manera que cuando hayan transcurrido 5 segundos desde que se inició la ejecución, se detengan todos los hilos y se muestre el número de primos encontrados hasta el momento. Luego, se debe esperar a que el usuario presione ENTER para reanudar la ejecución de los mismo.
     ```java
-    
+    public class PrimeFinderThread extends Thread {
+
+	private boolean pausa;
+	int a, b;
+	Object key;
+
+	private List<Integer> primes = new LinkedList<Integer>();
+
+	public PrimeFinderThread(int a, int b) {
+		super();
+		this.a = a;
+		this.b = b;
+		pausa = false;
+		key = 1;
+
+	}
+
+	public void run() {
+
+		for (int i = a; i <= b; i++) {
+			if (isPrime(i)) {
+				primes.add(i);
+				System.out.println(i);
+			}
+			if (pausa) {
+				synchronized (key) {
+					try {
+						key.wait();
+					} catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}
+
+	}
+
+	boolean isPrime(int n) {
+		if (n % 2 == 0)
+			return false;
+		for (int i = 3; i * i <= n; i += 2) {
+			if (n % i == 0)
+				return false;
+		}
+		return true;
+	}
+
+	public List<Integer> getPrimes() {
+		return primes;
+	}
+
+	public void pausa() {
+		pausa = true;
+
+	}
+
+	public void reanudar() {
+		pausa = false;
+		synchronized (key) {
+			key.notify();
+}
+;
+}
+
+}
     ```
 
 ### Parte II 
@@ -58,6 +124,8 @@ Parte III
     a.  La acción de iniciar la carrera y mostrar los resultados se realiza a partir de la línea 38 de MainCanodromo.
 
     b.  Puede utilizarse el método join() de la clase Thread para sincronizar el hilo que inicia la carrera, con la finalización de los hilos de los galgos.
+    
+    **Para que el resultado sólamente muestre sólo cuando la ejecución de todos los hilos haya finalizado, usamos join() con el cual sincronizamos todos los hilos que inician la carrera con sus respectivas finalizaciones.De esta forma el aviso de resultado solamente se activa una vez  todos los hilos hayan finalizado**
 
 2.  Una vez corregido el problema inicial, corra la aplicación varias
     veces, e identifique las inconsistencias en los resultados de las
@@ -66,12 +134,25 @@ Parte III
     dichas inconsistencias). A partir de esto, identifique las regiones
     críticas () del programa.
 
+    **Se identificó como algunas de las posiciones se repetían es allí como identificamos este problema como región crítica**
 3.  Utilice un mecanismo de sincronización para garantizar que a dichas
     regiones críticas sólo acceda un hilo a la vez. Verifique los
     resultados.
-
+    
+    **Se usa synchronized  en galgo en el metodo corra()  el cual fue util al momento de corregir el problema anterior ya que evitamos que las posiciones que toma cada Galgo se repitiera**
 4.  Implemente las funcionalidades de pausa y continuar. Con estas,
     cuando se haga clic en ‘Stop’, todos los hilos de los galgos
     deberían dormirse, y cuando se haga clic en ‘Continue’ los mismos
     deberían despertarse y continuar con la carrera. Diseñe una solución que permita hacer esto utilizando los mecanismos de sincronización con las primitivas de los Locks provistos por el lenguaje (wait y notifyAll).
+    
+    **Para implementar pausar y renaudar , en la clase MainCanodromo  corregimos la implementacion de éstos métodos, para ello usamos una condicion booleana para pausar la cual se valida dentro del metodo corre() y el renaudar usa notifyAll() para despertar todos los hilos que hayan sido pausados**
 
+
+
+## Autores ✒️
+* [Johan Damian Garrido Florez](https://github.com/anamariasalazar)
+* [Posso Guevara Juan Camilo](https://github.com/RichardUG)
+
+## Licencia 📄
+
+Licencia bajo la [GNU General Public License](/LICENSE)
